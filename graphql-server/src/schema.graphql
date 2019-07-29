@@ -1,0 +1,29 @@
+type Mutation {
+  createUser(email: String!, first_name: String, last_name: String): User!
+  updateUser(id: ID!, first_name: String, last_name: String): User
+  deleteUser(id: ID!): User
+}
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+  contractions: [Contraction]!
+  contraction(id: ID!): Contraction
+}
+
+type User {
+  id: ID!
+  email: String!
+  first_name: String
+  last_name: String
+  contractions: [Contraction]!
+}
+
+type Contraction {
+  id: ID!
+  start: String!
+  end: String!
+  duration: Int!
+  frequency: Int
+  pain: Int!
+}

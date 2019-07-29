@@ -126,8 +126,8 @@ STATIC_URL = '/static/'
 
 # Allow CORS from the frontend
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'http://localhost:4000',
 )
 CSRF_TRUSTED_ORIGINS = (
-    'localhost:3000',
+    'localhost:4000',
 )
