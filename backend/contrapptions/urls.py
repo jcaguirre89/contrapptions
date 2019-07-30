@@ -21,7 +21,8 @@ from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 #from rest_framework_simplejwt import views as jwt_views
-
+from graphene_django.views import GraphQLView
+from contrapptions.schema import schema
 
 
 urlpatterns = [
@@ -29,6 +30,7 @@ urlpatterns = [
     #path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     #path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api-auth/', include('rest_framework.urls')),
+    path('graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
     path('api/', include('api.urls')),
     path('openapi/', get_schema_view(
         title="Contractions App",
