@@ -1,18 +1,22 @@
 import withApollo from 'next-with-apollo';
-import ApolloClient from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
+import { RestLink } from 'apollo-link-rest';
 import { endpoint } from '../config';
 
-function createClient({ headers }) {
+if (global.Headers == null) {
+  global.Headers = require('fetch-headers');
+}
+
+const restLink = new RestLink({
+  uri: 'http://localhost:8000/api/',
+  // credentials included in cooklie in request
+  credentials: 'include',
+});
+
+function createClient({ ctx, headers, initialState }) {
   return new ApolloClient({
-    uri: process.env.NODE_ENV === 'development' ? endpoint : endpoint,
-    request: operation => {
-      operation.setContext({
-        fetchOptions: {
-          credentials: 'include',
-        },
-        headers,
-      });
-    },
+    link: restLink,
+    cache: new InMemoryCache().restore(initialState || {}),
   });
 }
 
