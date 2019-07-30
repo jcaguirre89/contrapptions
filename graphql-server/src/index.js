@@ -1,30 +1,25 @@
-const {GraphQLServer} = require('graphql-yoga');
-const fetch = require('node-fetch');
-
-const baseURL = `http://localhost:8000/api`;
-
-const resolvers = {
-  Query: {
-    users: () => {
-      return fetch(`${baseURL}/users`).then(res => res.json());
-    },
-    user: (parent, args) => {
-      const {id} = args;
-      return fetch(`${baseURL}/users/${id}`).then(res => res.json());
-    },
-    contractions: () => {
-      return fetch(`${baseURL}/contractions`).then(res => res.json());
-    },
-    contraction: (parent, args) => {
-      const {id} = args;
-      return fetch(`${baseURL}/contractions/${id}`).then(res => res.json());
-    },
-  },
-};
+const { GraphQLServer } = require('graphql-yoga');
+const Query = require('../resolvers/Query');
+const Mutation = require('../resolvers/Mutation');
+require('dotenv').config({ path: '.env' });
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
-  resolvers,
+  resolvers: { Query, Mutation },
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
+  },
 });
 
-server.start(() => console.log(`Server is running on http://localhost:4000`));
+server.start(
+  {
+    cors: {
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    },
+  },
+  deets => {
+    console.log(`Server is now running on
+    http://localhost:${deets.port}`);
+  }
+);

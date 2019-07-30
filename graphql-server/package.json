@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "graphql": "^14.4.2",
     "graphql-yoga": "^1.18.1",
     "node-fetch": "^2.6.0",

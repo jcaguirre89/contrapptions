@@ -1,7 +1,8 @@
 type Mutation {
-  createUser(email: String!, first_name: String, last_name: String): User!
-  updateUser(id: ID!, first_name: String, last_name: String): User
-  deleteUser(id: ID!): User
+  createUser(data: UserCreateInput): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteUser(where: UserWhereUniqueInput!): User
+  createContraction(data: ContractionCreateInput): Contraction!
 }
 
 type Query {
@@ -19,11 +20,45 @@ type User {
   contractions: [Contraction]!
 }
 
+scalar DateTime
+
+input ContractionCreateInput {
+  id: ID
+  start: DateTime!
+  end: DateTime!
+  duration: Int
+  frequency: Int
+  pain: Int!
+  user: UserCreateOneInput!
+}
+
+input UserCreateInput {
+  id: ID
+  first_name: String
+  last_name: String
+  email: String!
+}
+
+input UserUpdateInput {
+  first_name: String
+  last_name: String
+  email: String
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+}
+
 type Contraction {
   id: ID!
-  start: String!
-  end: String!
+  start: DateTime!
+  end: DateTime!
   duration: Int!
   frequency: Int
   pain: Int!
+  user: User!
 }
