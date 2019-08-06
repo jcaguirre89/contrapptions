@@ -9,7 +9,10 @@ from users.models import User
 class ContractionType(DjangoObjectType):
     class Meta:
         model = Contraction
-        filter_fields = ['user', 'start', 'end', 'duration', 'frequency', 'pain']
+
+    # Add properties as fields
+    duration = graphene.Int()
+    frequency = graphene.Int()
 
 
 class UserType(DjangoObjectType):
